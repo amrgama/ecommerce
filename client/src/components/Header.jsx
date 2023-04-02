@@ -23,13 +23,29 @@ const Header = () => {
         </div>
       </div>
 
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container">
-          <a className="navbar-brand" href="#">
+      <nav className="navbar shadow-sm navbar-expand-xl bg-body-tertiary">
+        <div className="container d-flex">
+          <a className="navbar-brand order-2 order-md-1 mx-0" href="#">
             E-Commerce
           </a>
+          <div className="d-flex order-1 order-md-2 order-xl-3">
+            <NavLink className="d-flex align-items-center mx-2 nav-link">
+              <IoPersonOutline className="fs-5 mx-1" />
+              <span className="d-none d-md-inline mb-0 ">حسابي</span>
+            </NavLink>
+
+            <NavLink className="d-flex align-items-center mx-2 nav-link">
+              <AiOutlineHeart className="fs-5 mx-1" />
+              <span className="d-none d-md-inline mb-0 "> قائمة الرغبات</span>
+            </NavLink>
+
+            <NavLink className="d-flex align-items-center mx-2 nav-link">
+              <FaOpencart className="fs-5 mx-1" />
+              <span className="d-none d-md-inline mb-0 "> عربة التسوق</span>
+            </NavLink>
+          </div>
           <button
-            className="navbar-toggler"
+            className="navbar-toggler order-3 "
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -39,7 +55,11 @@ const Header = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <div
+            className="collapse navbar-collapse order-4 order-xl-2"
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item dropdown">
                 <a
@@ -99,21 +119,6 @@ const Header = () => {
                 aria-label="Search"
               />
             </form>
-
-            <NavLink className="d-flex align-items-center mx-2 nav-link">
-              <IoPersonOutline className="fs-5 mx-1" />
-              حسابي
-            </NavLink>
-
-            <NavLink className="d-flex align-items-center mx-2 nav-link">
-              <AiOutlineHeart className="fs-5 mx-1" />
-              قائمة الرغبات
-            </NavLink>
-
-            <NavLink className="d-flex align-items-center mx-2 nav-link">
-              <FaOpencart className="fs-5 mx-1" />
-              عربة التسوق
-            </NavLink>
           </div>
         </div>
       </nav>

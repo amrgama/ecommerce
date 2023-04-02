@@ -10819,6 +10819,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+html[dir=rtl] .was-validated .form-control:invalid,
+html[dir=rtl] .form-control.is-invalid {
+  background-position: left calc(0.375em + 0.1875rem) center !important;
+}
+html[dir=rtl] .password-switch {
+  left: 0 !important;
+  right: unset !important;
+  transform: translate(50%, -50%) !important;
+}
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -10833,4 +10843,153 @@ body {
 
 .fs-9 {
   font-size: 0.7rem;
+}
+
+.start {
+  left: 0 !important;
+}
+
+.end {
+  right: 0 !important;
+}
+
+.auth {
+  min-height: 100vh;
+}
+.auth .container .signup,
+.auth .container .signin {
+  z-index: 4;
+}
+.auth .container .signup .wrraper,
+.auth .container .signin .wrraper {
+  box-shadow: 0px 30px 70px rgba(1, 15, 28, 0.1);
+  padding: 50px 60px 70px;
+}
+
+@media (max-width: 576px) {
+  .auth .container .signup .wrraper,
+  .auth .container .signin .wrraper {
+    padding: 50px 30px 70px;
+  }
+}
+.boxes {
+  --size: 32px;
+  --duration: 800ms;
+  height: calc(var(--size) * 2);
+  width: calc(var(--size) * 3);
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  margin-top: calc(var(--size) * 1.5 * -1);
+  transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+}
+
+.boxes .box {
+  width: var(--size);
+  height: var(--size);
+  top: 0;
+  left: 0;
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.boxes .box:nth-child(1) {
+  transform: translate(100%, 0);
+  animation: box1 var(--duration) linear infinite;
+}
+
+.boxes .box:nth-child(2) {
+  transform: translate(0, 100%);
+  animation: box2 var(--duration) linear infinite;
+}
+
+.boxes .box:nth-child(3) {
+  transform: translate(100%, 100%);
+  animation: box3 var(--duration) linear infinite;
+}
+
+.boxes .box:nth-child(4) {
+  transform: translate(200%, 0);
+  animation: box4 var(--duration) linear infinite;
+}
+
+.boxes .box > div {
+  --background: #00724e;
+  --top: auto;
+  --right: auto;
+  --bottom: auto;
+  --left: auto;
+  --translateZ: calc(var(--size) / 2);
+  --rotateY: 0deg;
+  --rotateX: 0deg;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  top: var(--top);
+  right: var(--right);
+  bottom: var(--bottom);
+  left: var(--left);
+  transform: rotateY(var(--rotateY)) rotateX(var(--rotateX)) translateZ(var(--translateZ));
+}
+
+.boxes .box > div:nth-child(1) {
+  --top: 0;
+  --left: 0;
+}
+
+.boxes .box > div:nth-child(2) {
+  --background: #003e29;
+  --right: 0;
+  --rotateY: 90deg;
+}
+
+.boxes .box > div:nth-child(3) {
+  --background: #005236;
+  --rotateX: -90deg;
+}
+
+.boxes .box > div:nth-child(4) {
+  --background: #003e291a;
+  --top: 0;
+  --left: 0;
+  --translateZ: calc(var(--size) * 3 * -1);
+}
+@keyframes box1 {
+  0%, 50% {
+    transform: translate(100%, 0);
+  }
+  100% {
+    transform: translate(200%, 0);
+  }
+}
+@keyframes box2 {
+  0% {
+    transform: translate(0, 100%);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(100%, 0);
+  }
+}
+@keyframes box3 {
+  0%, 50% {
+    transform: translate(100%, 100%);
+  }
+  100% {
+    transform: translate(0, 100%);
+  }
+}
+@keyframes box4 {
+  0% {
+    transform: translate(200%, 0);
+  }
+  50% {
+    transform: translate(200%, 100%);
+  }
+  100% {
+    transform: translate(100%, 100%);
+  }
 }/*# sourceMappingURL=app.css.map */
