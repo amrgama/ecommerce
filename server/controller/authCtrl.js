@@ -139,8 +139,11 @@ exports.signIn = async (req, res, next) => {
     // Generate refresh token
     const refreshToken = generateRefreshToken(user._id);
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: false,
       maxAge: 72 * 60 * 60 * 1000,
+      path: "/",
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
 
     const { password: a, refreshToken: b, ...other } = user._doc;
@@ -207,8 +210,11 @@ exports.adminSignIn = async (req, res, next) => {
     // Generate refresh token
     const refreshToken = generateRefreshToken(user._id);
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: false,
       maxAge: 72 * 60 * 60 * 1000,
+      path: "/",
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
     });
     await User.findByIdAndUpdate(user._id, { refreshToken });
     const {
@@ -242,10 +248,7 @@ exports.userLogOut = async (req, res, next) => {
       {},
       (err, decodedToken) => {
         if (err) {
-          res.clearCookie("refreshToken", {
-            secure: true,
-            httpOnly: false,
-          });
+          res.clearCookie("refreshToken");
           const error = new Error(err.message);
           error.stack = err.stack;
           error.statusCode = 417;
@@ -256,18 +259,12 @@ exports.userLogOut = async (req, res, next) => {
     );
     const user = await User.findById(decodedToken.id);
     if (!user) {
-      res.clearCookie("refreshToken", {
-        secure: true,
-        httpOnly: false,
-      });
+      res.clearCookie("refreshToken");
       const error = new Error("Forbidden");
       error.statusCode = 417;
       throw error;
     }
-    res.clearCookie("refreshToken", {
-      secure: true,
-      httpOnly: false,
-    });
+    res.clearCookie("refreshToken");
     res.sendStatus(204);
   } catch (error) {
     next(error);
@@ -285,20 +282,14 @@ exports.logOut = async (req, res, next) => {
     }
     const user = await User.findOne({ refreshToken });
     if (!user) {
-      res.clearCookie("refreshToken", {
-        secure: true,
-        httpOnly: false,
-      });
+      res.clearCookie("refreshToken");
       const error = new Error("Forbidden");
       error.statusCode = 417;
       throw error;
     }
     user.refreshToken = "";
     await user.save();
-    res.clearCookie("refreshToken", {
-      secure: true,
-      httpOnly: false,
-    });
+    res.clearCookie("refreshToken");
     res.sendStatus(204);
   } catch (error) {
     if (!error.statusCode) {
@@ -425,10 +416,7 @@ exports.handleRefreshTokenUser = async (req, res, next) => {
     }
     const user = await User.findById(decodedToken.id);
     if (!user) {
-      res.clearCookie("refreshToken", {
-        secure: true,
-        httpOnly: true,
-      });
+      res.clearCookie("refreshToken");
       const error = new Error("There is no user with this refresh token in db");
       error.statusCode = 404;
       throw error;
@@ -455,10 +443,7 @@ exports.handleRefreshToken = async (req, res, next) => {
     }
     const user = await User.findOne({ refreshToken });
     if (!user) {
-      res.clearCookie("refreshToken", {
-        secure: true,
-        httpOnly: false,
-      });
+      res.clearCookie("refreshToken");
       const error = new Error("There is no user with this refresh token in db");
       error.statusCode = 404;
       throw error;
