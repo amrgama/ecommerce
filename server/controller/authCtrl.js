@@ -143,7 +143,7 @@ exports.signIn = async (req, res, next) => {
       secure: true,
       httpOnly: false,
       sameSite: "None",
-      domin: "http://localhost:5174/",
+      // domin: "http://localhost:5174/",
     });
 
     const { password: a, refreshToken: b, ...other } = user._doc;
