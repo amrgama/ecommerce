@@ -142,7 +142,7 @@ exports.signIn = async (req, res, next) => {
       maxAge: 72 * 60 * 60 * 1000,
       path: "/",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: false,
       secure: true,
     });
 
@@ -213,7 +213,7 @@ exports.adminSignIn = async (req, res, next) => {
       maxAge: 72 * 60 * 60 * 1000,
       path: "/",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: false,
       secure: true,
     });
     await User.findByIdAndUpdate(user._id, { refreshToken });
