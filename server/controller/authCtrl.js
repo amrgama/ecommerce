@@ -139,7 +139,7 @@ exports.signIn = async (req, res, next) => {
     // Generate refresh token
     const refreshToken = generateRefreshToken(user._id);
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 72 * 60 * 60 * 1000,
     });
 
@@ -207,7 +207,7 @@ exports.adminSignIn = async (req, res, next) => {
     // Generate refresh token
     const refreshToken = generateRefreshToken(user._id);
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 72 * 60 * 60 * 1000,
     });
     await User.findByIdAndUpdate(user._id, { refreshToken });
@@ -244,7 +244,7 @@ exports.userLogOut = async (req, res, next) => {
         if (err) {
           res.clearCookie("refreshToken", {
             secure: true,
-            httpOnly: true,
+            httpOnly: false,
           });
           const error = new Error(err.message);
           error.stack = err.stack;
@@ -258,7 +258,7 @@ exports.userLogOut = async (req, res, next) => {
     if (!user) {
       res.clearCookie("refreshToken", {
         secure: true,
-        httpOnly: true,
+        httpOnly: false,
       });
       const error = new Error("Forbidden");
       error.statusCode = 417;
@@ -266,7 +266,7 @@ exports.userLogOut = async (req, res, next) => {
     }
     res.clearCookie("refreshToken", {
       secure: true,
-      httpOnly: true,
+      httpOnly: false,
     });
     res.sendStatus(204);
   } catch (error) {
@@ -287,7 +287,7 @@ exports.logOut = async (req, res, next) => {
     if (!user) {
       res.clearCookie("refreshToken", {
         secure: true,
-        httpOnly: true,
+        httpOnly: false,
       });
       const error = new Error("Forbidden");
       error.statusCode = 417;
@@ -297,7 +297,7 @@ exports.logOut = async (req, res, next) => {
     await user.save();
     res.clearCookie("refreshToken", {
       secure: true,
-      httpOnly: true,
+      httpOnly: false,
     });
     res.sendStatus(204);
   } catch (error) {
@@ -457,7 +457,7 @@ exports.handleRefreshToken = async (req, res, next) => {
     if (!user) {
       res.clearCookie("refreshToken", {
         secure: true,
-        httpOnly: true,
+        httpOnly: false,
       });
       const error = new Error("There is no user with this refresh token in db");
       error.statusCode = 404;
