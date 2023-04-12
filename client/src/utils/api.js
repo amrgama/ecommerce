@@ -5,7 +5,7 @@ const api = axios.create({ baseURL: baseUrl, withCredentials: true });
 api.interceptors.request.use(
   (req) => {
     req.headers["Authorization"] =
-      "Bearer " + JSON.parse(window.localStorage.getItem("user"))?.token;
+      "Bearer " + JSON.parse(window.localStorage.getItem("token"));
     return req;
   },
   (err) => {
@@ -25,23 +25,22 @@ api.interceptors.response.use(
         const response = await axios.get(baseUrl + "register/refresh-user", {
           withCredentials: true,
         });
-        const oldUser = JSON.parse(window.localStorage.getItem("user"));
-        if (!oldUser) {
-          throw new Error("logout");
-        }
-        const newUser = { ...oldUser, token: response.data.accessToken };
-        window.localStorage.setItem("user", JSON.stringify(newUser));
+
+        window.localStorage.setItem(
+          "token",
+          JSON.stringify(response.data.accessToken)
+        );
         const data = await api(originalReq);
         return data;
       } catch (error) {
-        window.localStorage.removeItem("user");
+        window.localStorage.removeItem("token");
         api.get("register/logout");
         window.location.replace("/");
         return;
       }
     }
     if (status === 417) {
-      window.localStorage.removeItem("user");
+      window.localStorage.removeItem("token");
       window.location.replace("/");
       return;
     }

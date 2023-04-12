@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { BsDot } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingBtn from "../../components/LoadingBtn";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useForm } from "react-hook-form";
-import { notifyError, notifySuccess } from "../../utils/helpers";
-import api from "../../utils/api";
+import { useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
+import { login } from "../../features/auth/authSlice";
+
 const SignIn = () => {
   const {
     register,
@@ -13,32 +16,13 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
   const [passwordShow, setPasswordShow] = useState(false);
-  const [submitData, setSubmitData] = useState({
-    isLoading: false,
-    isSuccess: false,
-    isError: null,
-  });
+  const { isLoading } = useSelector((state) => state.auth);
 
-  async function onSubmit(data) {
-    setSubmitData((prev) => {
-      return { ...prev, isLoading: true };
-    });
-    try {
-      const res = await api.post("/register/signin", data);
-      setSubmitData((prev) => {
-        return { ...prev, isLoading: false };
-      });
-      notifySuccess(`Welcome back ${res.data.firstname}`);
-    } catch (error) {
-      notifyError(error?.response?.data?.message);
-      setSubmitData((prev) => {
-        return {
-          ...prev,
-          isLoading: false,
-          isError: error?.response?.data?.message,
-        };
-      });
-    }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function onSubmit(data) {
+    dispatch(login({ data, navigate }));
   }
   return (
     <div className="signin col-xl-6 col-lg-8 ">
@@ -81,7 +65,7 @@ const SignIn = () => {
             ) : null}
           </div>
 
-          <div className="mb-3 form-group">
+          <div className=" form-group">
             <div className=" position-relative">
               <input
                 {...register("password", {
@@ -112,11 +96,13 @@ const SignIn = () => {
               </div>
             ) : null}
           </div>
-
+          <Link className="mb-3 mt-2 d-inline-block" to="/auth/forgot-password">
+            هل نسيت كلمة السر؟
+          </Link>
           <LoadingBtn
             label="تسجيل الدخول"
             bgcolor="btn-primary"
-            loading={submitData.isLoading}
+            loading={isLoading}
             extraClass="py-3 rounded-0 w-100"
           />
         </form>

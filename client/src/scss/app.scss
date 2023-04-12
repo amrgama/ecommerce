@@ -31,12 +31,62 @@ body {
 .end {
   right: 0 /*rtl:100*/ !important;
 }
+////////////////////  Drop down animation ////////////
+@media (min-width: 768px) {
+  .animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slideIn {
+  0% {
+    -webkit-transform: transform;
+    -webkit-opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+    -webkit-opacity: 1;
+  }
+
+  0% {
+    -webkit-transform: translateY(1rem);
+    -webkit-opacity: 0;
+  }
+}
+
+.slideIn {
+  -webkit-animation-name: slideIn;
+  animation-name: slideIn;
+}
+
 // Authintication page
 .auth {
   min-height: 100vh;
   .container {
     .signup,
-    .signin {
+    .signin,
+    .forgot-password {
       z-index: 4;
       .wrraper {
         box-shadow: 0px 30px 70px rgba(1, 15, 28, 0.1);
@@ -49,7 +99,8 @@ body {
   .auth {
     .container {
       .signup,
-      .signin {
+      .signin,
+      .forgot-password {
         .wrraper {
           padding: 50px 30px 70px;
         }
@@ -245,5 +296,57 @@ body {
 
   100% {
     transform: translate(100%, 100%);
+  }
+}
+
+// Product page
+.store {
+  .products {
+    .card {
+      .icon {
+        right: 10px;
+        top: 10px;
+        z-index: 5;
+      }
+      .colors {
+        li {
+          opacity: 0.5;
+          &.active {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Cart page
+.cart {
+  .cart-data {
+    img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+  }
+}
+
+// order confirm
+.order-confirm {
+  .wrraper {
+    box-shadow: 0px 30px 70px rgba(1, 15, 28, 0.1);
+    padding: 50px 60px 50px;
+    width: 45%;
+    min-width: 400px;
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 576px) {
+  .order-confirm {
+    .wrraper {
+      min-width: 320px;
+      padding: 50px 30px 70px;
+    }
   }
 }

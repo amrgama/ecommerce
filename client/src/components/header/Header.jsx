@@ -1,9 +1,9 @@
 import React from "react";
 import { BsTelephone } from "react-icons/bs";
-import { IoPersonOutline } from "react-icons/io5";
-import { FaOpencart } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
+
+import UserFeatures from "./UserFeatures";
 import { NavLink } from "react-router-dom";
+
 const Header = () => {
   return (
     <header>
@@ -28,22 +28,7 @@ const Header = () => {
           <a className="navbar-brand order-2 order-md-1 mx-0" href="#">
             E-Commerce
           </a>
-          <div className="d-flex order-1 order-md-2 order-xl-3">
-            <NavLink className="d-flex align-items-center mx-2 nav-link">
-              <IoPersonOutline className="fs-5 mx-1" />
-              <span className="d-none d-md-inline mb-0 ">حسابي</span>
-            </NavLink>
-
-            <NavLink className="d-flex align-items-center mx-2 nav-link">
-              <AiOutlineHeart className="fs-5 mx-1" />
-              <span className="d-none d-md-inline mb-0 "> قائمة الرغبات</span>
-            </NavLink>
-
-            <NavLink className="d-flex align-items-center mx-2 nav-link">
-              <FaOpencart className="fs-5 mx-1" />
-              <span className="d-none d-md-inline mb-0 "> عربة التسوق</span>
-            </NavLink>
-          </div>
+          <UserFeatures />
           <button
             className="navbar-toggler order-3 "
             type="button"
@@ -71,7 +56,7 @@ const Header = () => {
                 >
                   الفئات
                 </a>
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu animate slideIn">
                   <li>
                     <a className="dropdown-item" href="#">
                       Action
@@ -93,12 +78,14 @@ const Header = () => {
                 </ul>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink to="/" className="nav-link " aria-current="page">
                   الرئيسيه
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link">متجرنا</a>
+                <NavLink to="/ourstore" className="nav-link">
+                  متجرنا
+                </NavLink>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
