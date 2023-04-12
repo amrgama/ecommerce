@@ -140,10 +140,8 @@ exports.signIn = async (req, res, next) => {
     const refreshToken = generateRefreshToken(user._id);
     res.cookie("refreshToken", refreshToken, {
       maxAge: 72 * 60 * 60 * 1000,
-      path: "/",
       httpOnly: true,
-      sameSite: false,
-      secure: true,
+      domin: "http://localhost:5174/",
     });
 
     const { password: a, refreshToken: b, ...other } = user._doc;
@@ -211,10 +209,8 @@ exports.adminSignIn = async (req, res, next) => {
     const refreshToken = generateRefreshToken(user._id);
     res.cookie("refreshToken", refreshToken, {
       maxAge: 72 * 60 * 60 * 1000,
-      path: "/",
       httpOnly: true,
-      sameSite: false,
-      secure: true,
+      domin: "http://localhost:5174/",
     });
     await User.findByIdAndUpdate(user._id, { refreshToken });
     const {
