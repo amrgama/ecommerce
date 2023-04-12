@@ -37,11 +37,7 @@ const ProdItem = ({ prod }) => {
 
         <div className="card-body">
           <h5 className="card-title">{prod?.title}</h5>
-          <p className="card-text mb-1">
-            {prod?.description?.length > 100
-              ? prod.description.substring(0, 20) + "..."
-              : prod.description}
-          </p>
+          <p className="card-text mb-1">{prod?.description}</p>
           <Star stars={prod?.totalrating} reviews={prod?.ratings} />
           <span className="lh-sm">{prod?.price}جنيه </span>
           {prod?.colors ? (

@@ -11021,15 +11021,24 @@ body {
     transform: translate(100%, 100%);
   }
 }
-.store .products .card .icon {
+.store .products .card.position-relative .card-title,
+.store .products .card.position-relative .card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.store .products .card.position-relative .icon {
   right: 10px;
   top: 10px;
   z-index: 5;
 }
-.store .products .card .colors li {
+.store .products .card.position-relative .colors li {
   opacity: 0.5;
 }
-.store .products .card .colors li.active {
+.store .products .card.position-relative .colors li.active {
   opacity: 1;
 }
 
