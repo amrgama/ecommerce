@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import Star from "./Star";
-import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineHeart } from "react-icons/ai";
 import { FaOpencart } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 const ProdItem = ({ prod }) => {
   const dispatch = useDispatch();
   const [cartLoading, setCartLoading] = useState(false);
   const [prodColor, setProdColor] = useState(null);
+  const { token } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const onAdd = async () => {
+    if (!token) {
+      navigate("/auth/signin");
+      return;
+    }
     setCartLoading(true);
     try {
       await dispatch(

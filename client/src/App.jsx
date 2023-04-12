@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./scss/app.css";
 import "react-toastify/dist/ReactToastify.css";
 import SignUp from "./pages/Auth/SignUp";
@@ -14,8 +14,19 @@ import Store from "./pages/our-store/Store";
 import Cart from "./pages/cart/Cart";
 import LoadingCont from "./components/loading/LoadingCont";
 import OrderConfirm from "./pages/cart/OrderConfirm";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { isLogin } = useSelector((state) => state.auth);
+
+  const ProtectedRoute = ({ login, children }) => {
+    if (!login) {
+      return <Navigate to="/auth/signin" replace />;
+    }
+
+    return children;
+  };
+  console.log(isLogin);
   return (
     <BrowserRouter>
       <Header />
@@ -33,7 +44,14 @@ function App() {
         <Route path="/" element={<LayOut />}>
           <Route path="/" element={<Home />} />
           <Route path="/ourstore" element={<Store />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute login={isLogin}>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/cart/confirm-order" element={<OrderConfirm />} />
         </Route>
         <Route path="/confirm-email/:token/" element={<ConfirmEmail />} />
