@@ -428,12 +428,25 @@ exports.handleRefreshTokenUser = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    const decodedToken = jwt.verify(refreshToken, process.env.SECRET_TOKEN);
-    if (!decodedToken.id) {
-      const error = new Error("There is something error with refresh token");
-      error.statusCode = 422;
-      throw error;
-    }
+    const decodedToken = jwt.verify(
+      refreshToken,
+      process.env.SECRET_TOKEN,
+      {},
+      (err, decodedToken) => {
+        if (err) {
+          res.clearCookie("refreshToken", {
+            secure: true,
+            httpOnly: false,
+            sameSite: "None",
+          });
+          const error = new Error(err.message);
+          error.stack = err.stack;
+          error.statusCode = 417;
+          throw error;
+        }
+        return decodedToken;
+      }
+    );
     const user = await User.findById(decodedToken.id);
     if (!user) {
       res.clearCookie("refreshToken", {

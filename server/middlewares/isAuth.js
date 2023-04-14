@@ -17,7 +17,7 @@ const isAuth = async (req, res, next) => {
       (err, decodedToken) => {
         if (err) {
           const error = new Error(err.message);
-          error.stack = err.stackl;
+          error.stack = err.stack;
           error.statusCode = 401;
           throw error;
         }
