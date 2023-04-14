@@ -9,6 +9,7 @@ var cartSchema = new mongoose.Schema(
         quantity: Number,
         color: String,
         price: Number,
+        size: String,
       },
     ],
     cartTotal: Number,

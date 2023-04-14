@@ -105,13 +105,16 @@ exports.addToCart = async (req, res, next) => {
     const userCart = await Cart.findOne({ user: _id });
     const alreadyAdded = userCart.products.findIndex(
       (prod) =>
-        prod.product.toString() === prodId.toString() && prod.color === color
+        prod.product.toString() === prodId.toString() &&
+        prod.color === color &&
+        prod.size === size
     );
     if (alreadyAdded >= 0) {
       const newProduct = {
         product: userCart.products[alreadyAdded].product,
         quantity: userCart.products[alreadyAdded].quantity + 1,
         color: color,
+        size: size,
         price: userCart.products[alreadyAdded].price,
       };
       userCart.products[alreadyAdded] = newProduct;
@@ -120,6 +123,7 @@ exports.addToCart = async (req, res, next) => {
         product: foundProduct._id,
         quantity: 1,
         color: color,
+        size: size,
         price: foundProduct.price,
       };
       userCart.products.push(product);
@@ -149,7 +153,8 @@ exports.updateProdQuantityInCart = async (req, res, next) => {
     const deletedProd = cart.products.find(
       (prod) =>
         prod.product.toString() === prodId &&
-        prod.color.toLowerCase() === color.toLowerCase()
+        prod.color.toLowerCase() === color.toLowerCase() &&
+        prod.size === size
     );
     if (!deletedProd) {
       const error = new Error("Product not found in cart");
@@ -160,7 +165,8 @@ exports.updateProdQuantityInCart = async (req, res, next) => {
       cart.products = cart.products.filter(
         (prod) =>
           prod.product.toString() !== prodId ||
-          prod.color.toLowerCase() !== color.toLowerCase()
+          prod.color.toLowerCase() !== color.toLowerCase() ||
+          prod.size !== size
       );
       cart.cartTotal =
         cart.cartTotal - deletedProd.quantity * deletedProd.price;

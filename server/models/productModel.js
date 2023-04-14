@@ -26,7 +26,10 @@ var productSchema = new mongoose.Schema(
       required: true,
     },
     category: String,
-    tag: String,
+    tag: {
+      type: String,
+      enum: ["featured", "popular"],
+    },
     colors: [],
     size: [],
     quantity: {
