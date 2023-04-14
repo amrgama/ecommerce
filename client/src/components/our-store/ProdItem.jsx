@@ -5,10 +5,12 @@ import { FaOpencart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { notifyError } from "../../utils/helpers";
 const ProdItem = ({ prod }) => {
   const dispatch = useDispatch();
   const [cartLoading, setCartLoading] = useState(false);
-  const [prodColor, setProdColor] = useState(null);
+  const [prodColor, setProdColor] = useState("");
+  const [size, setSize] = useState("");
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const onAdd = async () => {
@@ -16,11 +18,16 @@ const ProdItem = ({ prod }) => {
       navigate("/auth/signin");
       return;
     }
-    setCartLoading(true);
     try {
-      await dispatch(
-        addToCart({ prodId: prod?._id, color: prodColor, size: prod?.size })
-      );
+      if (prod?.size?.length > 0 && !size) {
+        return notifyError("Size is required");
+      }
+      if (prod?.colors?.length > 0 && !prodColor) {
+        return notifyError("Color is required");
+      }
+      setCartLoading(true);
+
+      await dispatch(addToCart({ prodId: prod?._id, color: prodColor, size }));
       setCartLoading(false);
     } catch (error) {
       setCartLoading(false);
@@ -46,28 +53,50 @@ const ProdItem = ({ prod }) => {
           <p className="card-text mb-1">{prod?.description}</p>
           <Star stars={prod?.totalrating} reviews={prod?.ratings} />
           <span className="lh-sm">{prod?.price}جنيه </span>
-          {prod?.colors ? (
-            <ul className="p-0 d-flex gap-1 colors">
-              {prod.colors.map((color, index) => {
-                return (
-                  <li
-                    onClick={() => setProdColor(color)}
-                    key={index}
-                    role="button"
-                    className={`rounded-circle nav-link ${
-                      color === prodColor ? "active" : ""
-                    }`}
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      border: "1px solid black",
-                      backgroundColor: color.toLowerCase(),
-                    }}
-                  ></li>
-                );
-              })}
-            </ul>
-          ) : null}
+          <div
+            style={{ maxHeight: "20px" }}
+            className="d-flex align-items-center justify-content-between"
+          >
+            {prod?.colors ? (
+              <ul className="p-0 d-flex gap-1 mb-0 colors">
+                {prod.colors.map((color, index) => {
+                  return (
+                    <li
+                      onClick={() => setProdColor(color)}
+                      key={index}
+                      role="button"
+                      className={`rounded-circle nav-link ${
+                        color === prodColor ? "active" : ""
+                      }`}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        border: "1px solid black",
+                        backgroundColor: color.toLowerCase(),
+                      }}
+                    ></li>
+                  );
+                })}
+              </ul>
+            ) : null}
+
+            {prod?.size.length > 0 ? (
+              <div className="form-group ">
+                <select
+                  onChange={(e) => setSize(e.target.value)}
+                  value={size}
+                  className="form-select py-0"
+                >
+                  <option value="none">none</option>
+                  {prod?.size.map((size, index) => (
+                    <option key={index} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
+          </div>
           <div className="buttons gap-2 d-flex mt-3">
             <button
               onClick={() => onAdd()}

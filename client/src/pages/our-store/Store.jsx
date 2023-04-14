@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BsDot } from "react-icons/bs";
-import Filters from "./Filters";
-import { useDispatch, useSelector } from "react-redux";
+import Filters from "../../components/our-store/Filters";
+import { useDispatch } from "react-redux";
 import { getProducts } from "../../features/product/productSlice";
-import ProductList from "./ProductList";
+import ProductList from "../../components/our-store/ProductList";
 
 const Store = () => {
   const dispatch = useDispatch();

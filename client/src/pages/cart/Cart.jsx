@@ -13,7 +13,9 @@ const Cart = () => {
     if (!prod?.product) {
       return;
     }
-    return <CartItem key={prod.product._id + prod?.color} prod={prod} />;
+    return (
+      <CartItem key={prod.product._id + prod?.color + prod?.size} prod={prod} />
+    );
   });
 
   const onSubmit = async () => {
