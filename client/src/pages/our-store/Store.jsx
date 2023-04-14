@@ -7,20 +7,30 @@ import ProductList from "./ProductList";
 
 const Store = () => {
   const dispatch = useDispatch();
-  const [sortBy, setSortBy] = useState("all");
-
-  useEffect(() => {
-    if (sortBy) {
-      if (sortBy === "featured") {
-        dispatch(getProducts({ query: "tag=featured" }));
-      }
-      if (sortBy === "sold") {
-        dispatch(getProducts({ query: "sort=-sold" }));
-      }
-      if (sortBy === "all") {
-        dispatch(getProducts({ query: null }));
-      }
+  const [sortBy, setSortBy] = useState({});
+  let sorts = [];
+  Object.entries(sortBy).map(([key, value]) => {
+    if (!value) {
+      return;
     }
+    sorts.push(value);
+  });
+
+  const query = sorts?.join("&");
+  useEffect(() => {
+    dispatch(getProducts({ query }));
+    // if (sortBy) {
+    // dispatch(getProducts({ query: filter }));
+    // if (sortBy === "featured") {
+    //   dispatch(getProducts({ query: "tag=featured" }));
+    // }
+    // if (sortBy === "sold") {
+    //   dispatch(getProducts({ query: "sort=-sold" }));
+    // }
+    // if (sortBy === "all") {
+    //   dispatch(getProducts({ query: "page=1" }));
+    // }
+    // }
   }, [sortBy]);
   return (
     <div className="store">
@@ -34,25 +44,29 @@ const Store = () => {
 
       <div className="container">
         <div className="row my-3">
+          <div className="col-3">
+            <Filters sortBy={sortBy} setSortBy={setSortBy} />
+          </div>
           <div className="col-9">
             <div className="bg-white py-2 px-3 rounded-3">
               <div className="d-flex align-items-center flex-nowrap">
                 <span className="mx-2 d-inline-block">الترتيب حسب : </span>
                 <select
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={(e) =>
+                    setSortBy((prev) => {
+                      return { ...prev, sort: e.target.value };
+                    })
+                  }
                   className="form-select w-auto"
                 >
-                  <option value="all">الكل</option>
-                  <option value="featured">مميز</option>
-                  <option value="sold">الاعلي مبيعا</option>
+                  <option value="">الكل</option>
+                  <option value="tag=featured">مميز</option>
+                  <option value="sort=-sold">الاعلي مبيعا</option>
                 </select>
               </div>
             </div>
 
             <ProductList />
-          </div>
-          <div className="col-3">
-            <Filters />
           </div>
         </div>
       </div>

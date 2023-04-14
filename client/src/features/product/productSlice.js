@@ -3,6 +3,7 @@ import productService from "./productService";
 
 const initialState = {
   products: [],
+  productsCount: 0,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -36,7 +37,8 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.productsCount = action.payload.count;
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.isLoading = false;

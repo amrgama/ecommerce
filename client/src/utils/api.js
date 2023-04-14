@@ -33,9 +33,12 @@ api.interceptors.response.use(
         const data = await api(originalReq);
         return data;
       } catch (error) {
-        window.localStorage.removeItem("token");
-        api.get("register/logout");
-        window.location.replace("/");
+        if (error.response.status === 417) {
+          window.localStorage.removeItem("token");
+          api.get("register/logout");
+          window.location.replace("/");
+          return;
+        }
         return;
       }
     }

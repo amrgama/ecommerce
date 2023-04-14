@@ -14,11 +14,14 @@ import Store from "./pages/our-store/Store";
 import Cart from "./pages/cart/Cart";
 import LoadingCont from "./components/loading/LoadingCont";
 import OrderConfirm from "./pages/cart/OrderConfirm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getBrands } from "./features/brands/brandSlice";
+import { getProdCategories } from "./features/pcategory/pcategorySlice";
 
 function App() {
   const { isLogin } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
   const ProtectedRoute = ({ login, children }) => {
     if (!login) {
       return <Navigate to="/auth/signin" replace />;
@@ -26,7 +29,12 @@ function App() {
 
     return children;
   };
-  console.log(isLogin);
+
+  useEffect(() => {
+    dispatch(getBrands());
+    dispatch(getProdCategories());
+  }, []);
+
   return (
     <BrowserRouter>
       <Header />

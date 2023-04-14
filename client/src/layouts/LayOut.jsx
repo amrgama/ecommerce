@@ -10,9 +10,13 @@ const LayOut = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    if (token) {
-      dispatch(getStatus());
+    const fetchUserData = async () => {
+      await dispatch(getStatus());
       dispatch(getCart());
+    };
+
+    if (token) {
+      fetchUserData();
     }
   }, [isFirstLogin]);
 
