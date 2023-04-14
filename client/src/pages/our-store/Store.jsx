@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { BsDot } from "react-icons/bs";
 import Filters from "./Filters";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../features/product/productSlice";
 import ProductList from "./ProductList";
 
 const Store = () => {
   const dispatch = useDispatch();
-  const [sortBy, setSortBy] = useState({});
+  const [sortBy, setSortBy] = useState({ cat: "", brand: "" });
   let sorts = [];
   Object.entries(sortBy).map(([key, value]) => {
     if (!value) {
@@ -15,22 +15,10 @@ const Store = () => {
     }
     sorts.push(value);
   });
-
   const query = sorts?.join("&");
+
   useEffect(() => {
     dispatch(getProducts({ query }));
-    // if (sortBy) {
-    // dispatch(getProducts({ query: filter }));
-    // if (sortBy === "featured") {
-    //   dispatch(getProducts({ query: "tag=featured" }));
-    // }
-    // if (sortBy === "sold") {
-    //   dispatch(getProducts({ query: "sort=-sold" }));
-    // }
-    // if (sortBy === "all") {
-    //   dispatch(getProducts({ query: "page=1" }));
-    // }
-    // }
   }, [sortBy]);
   return (
     <div className="store">

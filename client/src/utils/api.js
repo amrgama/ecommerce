@@ -39,7 +39,7 @@ api.interceptors.response.use(
           window.location.replace("/");
           return;
         }
-        return;
+        throw error;
       }
     }
     if (status === 417) {
