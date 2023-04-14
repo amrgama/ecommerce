@@ -28,7 +28,7 @@ const ProdItem = ({ prod }) => {
   };
   return (
     <div className="col-12 col-sm-6 col-lg-4 col-xl-3  px-1 mb-2 ">
-      <div className="card position-relative">
+      <div className="card shadow-sm border-0 position-relative">
         <div role="button" className="icon d-flex fs-5 position-absolute ">
           <AiOutlineHeart />
         </div>
@@ -60,6 +60,7 @@ const ProdItem = ({ prod }) => {
                     style={{
                       width: "20px",
                       height: "20px",
+                      border: "1px solid black",
                       backgroundColor: color.toLowerCase(),
                     }}
                   ></li>

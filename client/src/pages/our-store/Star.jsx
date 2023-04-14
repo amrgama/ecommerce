@@ -1,26 +1,24 @@
 import React from "react";
-import { FaStar, FaStarHalf, FaRegStar } from "react-icons/fa";
-import { AiOutlineStar } from "react-icons/ai";
+import { BsStar, BsStarHalf, BsStarFill } from "react-icons/bs";
 const Star = ({ stars, reviews }) => {
   const ratings = Array.from({ length: 5 }, (elem, index) => {
     let number = index + 0.5;
     return (
       <span key={index}>
         {stars >= index + 1 ? (
-          <FaStar className="text-warning" />
+          <BsStarFill className="text-warning" />
         ) : stars >= number ? (
-          <FaStarHalf className="text-warning" />
+          <BsStarHalf className="text-warning" />
         ) : (
-          <FaRegStar className="text-warning" />
+          <BsStar className="text-warning" />
         )}
       </span>
     );
   });
   return (
-    <div className="">
+    <div className="d-flex align-items-center" dir="ltr">
       {ratings}
-      <span className="">({reviews.length})</span>
-      {stars}
+      <span className="mx-1">({reviews.length})</span>
     </div>
   );
 };

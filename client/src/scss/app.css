@@ -11036,10 +11036,11 @@ body {
   z-index: 5;
 }
 .store .products .card.position-relative .colors li {
-  opacity: 0.5;
+  opacity: 1;
+  transition: 0.2s ease-in-out;
 }
 .store .products .card.position-relative .colors li.active {
-  opacity: 1;
+  border: 3px solid white !important;
 }
 
 .cart .cart-data img {

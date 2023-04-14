@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 
 const Filters = ({ setSortBy, sortBy }) => {
   const { brand, category } = useSelector((state) => state);
   const { brands, isLoading } = brand;
   const { categories } = category;
-
+  const lowPriceRef = useRef();
+  const highPriceRef = useRef();
   const cat_list = categories?.map((cat) => {
     return (
       <div key={cat._id} className="form-check">
@@ -49,6 +50,22 @@ const Filters = ({ setSortBy, sortBy }) => {
       </div>
     );
   });
+
+  const onPriceSubmit = (e) => {
+    e.preventDefault();
+
+    setSortBy((prev) => {
+      return {
+        ...prev,
+        lowPrice: lowPriceRef.current.value
+          ? `price[gte]=${lowPriceRef?.current?.value}`
+          : null,
+        higPrice: highPriceRef.current.value
+          ? `price[lte]=${highPriceRef?.current?.value}`
+          : null,
+      };
+    });
+  };
   return (
     <div className="bg-white rounded-3 px-3 py-2">
       <div className="cat mb-3">
@@ -76,7 +93,7 @@ const Filters = ({ setSortBy, sortBy }) => {
         </div>
       </div>
 
-      <div className="brands">
+      <div className="brands mb-3">
         <h6>العلامات التجاريه</h6>
         <div className="brand-list">
           <div key="all" className="form-check">
@@ -100,6 +117,33 @@ const Filters = ({ setSortBy, sortBy }) => {
           {brand_list}
         </div>
       </div>
+
+      <form onSubmit={(e) => onPriceSubmit(e)} className="price">
+        <h6>تصفيه حسب السعر</h6>
+        <div className="row mb-2">
+          <div className="col px-1">
+            <input
+              ref={lowPriceRef}
+              min={0}
+              type="number"
+              className="form-control"
+              placeholder="الحد الادني"
+            />
+          </div>
+          <div className="col px-1">
+            <input
+              ref={highPriceRef}
+              min={0}
+              type="number"
+              className="form-control"
+              placeholder="الحد الاقصي"
+            />
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary ">
+          بدأ
+        </button>
+      </form>
     </div>
   );
 };

@@ -319,9 +319,10 @@ body {
       }
       .colors {
         li {
-          opacity: 0.5;
+          opacity: 1;
+          transition: 0.2s ease-in-out;
           &.active {
-            opacity: 1;
+            border: 3px solid white !important;
           }
         }
       }

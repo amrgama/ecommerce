@@ -19,7 +19,7 @@ const Cart = () => {
   const onSubmit = async () => {
     if (status === "visa") {
       const response = await api.post("user/create-checkout-session");
-      window.location.href = response.data.url;
+      window.open(response.data.url, "_blank");
       return;
     }
     navigate("/cart/confirm-order", { state: cart });
