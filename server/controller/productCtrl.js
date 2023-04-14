@@ -124,8 +124,9 @@ exports.getAllProducts = async (req, res, next) => {
     const page = req.query.page;
     const limit = req.query.limit;
     const skip = (page - 1) * limit;
+    const productsCount = await Product.countDocuments();
+
     if (req.query.page) {
-      const productsCount = await Product.countDocuments();
       if (skip >= productsCount) {
         const error = new Error(
           "You are reached the maxmium number of products"
@@ -140,12 +141,12 @@ exports.getAllProducts = async (req, res, next) => {
       .populate("ratings.postedBy", "firstname lastname _id email");
 
     const query = await products;
-    res.status(200).json(query);
+    res.status(200).json({ products: query, count: productsCount });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
     }
-    throw error;
+    next(error);
   }
 };
 
@@ -221,11 +222,7 @@ exports.uploadImages = async (req, res, next) => {
       urls.push(newPath);
       fs.unlinkSync(file.path);
     }
-    // const product = await Product.findByIdAndUpdate(
-    //   prodId,
-    //   { images: [...urls] },
-    //   { new: true }
-    // );
+
     res.status(201).json(urls);
   } catch (error) {
     console.log(error);
