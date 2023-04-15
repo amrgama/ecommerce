@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { notifyError } from "../../utils/helpers";
+import { Link } from "react-router-dom";
 const ProdItem = ({ prod }) => {
   const dispatch = useDispatch();
   const [cartLoading, setCartLoading] = useState(false);
@@ -49,7 +50,9 @@ const ProdItem = ({ prod }) => {
         </div>
 
         <div className="card-body">
-          <h5 className="card-title">{prod?.title}</h5>
+          <h5 className="card-title">
+            <Link to={`/product/${prod?._id}`} className="nav-link">{prod?.title}</Link>
+          </h5>
           <p className="card-text mb-1">{prod?.description}</p>
           <Star stars={prod?.totalrating} reviews={prod?.ratings} />
           <span className="lh-sm">{prod?.price}جنيه </span>

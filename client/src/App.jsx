@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getBrands } from "./features/brands/brandSlice";
 import { getProdCategories } from "./features/pcategory/pcategorySlice";
+import Footer from "./components/Footer";
+import SingleProduct from "./pages/singleProduct/SingleProduct";
 
 function App() {
   const { isLogin } = useSelector((state) => state.auth);
@@ -51,6 +53,7 @@ function App() {
         </Route>
         <Route path="/" element={<LayOut />}>
           <Route path="/" element={<Home />} />
+          <Route path="product/:id" element={<SingleProduct />} />
           <Route path="/ourstore" element={<Store />} />
           <Route
             path="/cart"
@@ -64,6 +67,7 @@ function App() {
         </Route>
         <Route path="/confirm-email/:token/" element={<ConfirmEmail />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

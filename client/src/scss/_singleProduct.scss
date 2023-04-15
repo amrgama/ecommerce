@@ -1,0 +1,12 @@
+.single-product-wrapper-1{
+    .preview-img{
+        img{
+            object-fit: contain;
+        }
+    }
+    .review-comment{
+        height: 50px;
+        resize: none !important;
+        overflow: hidden;
+    }
+}

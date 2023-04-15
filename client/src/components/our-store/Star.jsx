@@ -16,7 +16,7 @@ const Star = ({ stars, reviews }) => {
     );
   });
   return (
-    <div className="d-flex align-items-center" dir="ltr">
+    <div className="d-flex align-items-center justify-content-end" dir="ltr">
       {ratings}
       <span className="mx-1">({reviews.length})</span>
     </div>
